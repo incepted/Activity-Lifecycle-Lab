@@ -29,9 +29,11 @@ When you rotate the device, the things you marked as complete are no longer cros
 
 **Question**: Why did this happen?
 <br />Answer:
+Rotation of the device destroys the current activity (screen) thus leaving the previous state unsaved.
 
 **Question**: How do you fix this issue?
 <br />Answer:
+You would need to save the current state before the rotation occurs and resume on rotation.
 
 
 ####Scenario 2:
@@ -42,7 +44,11 @@ When you opened the app again, and opened the book, it started from page 1 (and 
 
 **Question**: How would you fix this issue?
 <br />**Answer**:
+Each page is an int value that should be stored in the onPause method to the SharedPreferences object in order to restore the original page the user left off later.  Access to the onResume to getInteger method for the SharedPreferences should be used.
 
+onSaveInstanceState would only save settings while the program is still active in the background of the device.  Data is gone when the application is terminated.
+
+SharedPreferences would persist the data even after the program is terminated as it is stored locally.
 
 ####Scenario 3:
 
@@ -53,6 +59,9 @@ Take this scenario. On a post on Facebook, you click the “comment” button (w
 **Question**: How would you implement this feature? Be specific; what lifecycle methods would you use in CommentActivity, and what techniques would you use?
 <br />**Answer**:
 
+You would utilize SharedPreferences to save the typed draft by the user onPause method for the data to be stored in the activity.  onResume, the data would be reinvoked and would be displayed on view.
+
+
 
 
 In your own words…
@@ -61,11 +70,38 @@ In your own words…
 **Question**: What are the methods of the Activity Lifecycle?
 <br />**Answer**: 
 
+onCreate();
+onStart();
+onResume();
+<App Running>
+onPause();
+onStop();
+onDestory();
+
 **Question**: What order are the methods called?
 <br />**Answer**: 
+onCreate();
+onStart();
+onResume();
+<App Running>
+onPause();
+onStop();
+onDestory();
+
 
 **Question**: What is a bundle?
 <br />**Answer**: 
+Data container, stores data
 
 **Question**: How do you get the Shared Preferences of an app?
 <br />**Answer**:
+Declare a new SharedPreferences object
+
+SharedPreferences sharedPref = getSharedPreferences();
+
+SharedPreferences.Editor editor = sharedPref.edit():
+//puts data
+editor.put();
+//commit data
+editor.commit();
+//to edit SharedPreferences
